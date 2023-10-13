@@ -23,6 +23,15 @@ RUN apt-get update && apt-get install -y \
     acl \
     && echo 'alias sf="php bin/console"' >> ~/.bashrc
 
+# installation de wget
+RUN apt install -y wget
+# Téléchargement et installation de Symfony CLI
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+# Définition de la variable PATH pour inclure Symfony CLI
+RUN echo 'export PATH="$HOME/.symfony5/bin:$PATH"' >> /root/.bashrc
+# Source du fichier .bashrc pour appliquer les modifications immédiatement
+RUN echo 'source /root/.bashrc' >> /root/.bash_profile
+
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype 
 
 RUN docker-php-ext-install \
